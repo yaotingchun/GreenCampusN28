@@ -1,7 +1,7 @@
 ==========================================
        ROOM INFORMATION REPORT            
 ==========================================
-Generated : 2026-06-13T15:59:32.735735800
+Generated : 2026-06-13T21:28:42.593891400
 Trigger   : System startup complete
 
 Building  : Engineering Building
@@ -14,10 +14,10 @@ Areas     : 6
   Type      : Classroom
   Sensors (3):
     [Sensor]    ID: LS01     | Type: Light Sensor   | Latest: 340.0 Lux    | Time: 2026-06-12T11:00:00
-    [Sensor]    ID: TS01     | Type: Temperature    | Latest: 28.0 Â°C      | Time: 2026-06-12T11:00:00
+    [Sensor]    ID: TS01     | Type: Temperature    | Latest: 28.0 °C      | Time: 2026-06-12T11:00:00
     [Sensor]    ID: ES01     | Type: Electricity    | Latest: 0.5 kWh      | Time: 2026-06-12T11:00:00
   Appliances (1):
-    [Appliance] ID: FAN03    | Type: Fan              | Status: ON   | Consumed: 0.00 kWh
+    [Appliance] ID: FAN03    | Type: Fan              | Status: ON   | Consumed: 10.00 kWh
 
   ........................................
 
@@ -26,12 +26,12 @@ Areas     : 6
   Type      : Classroom
   Sensors (3):
     [Sensor]    ID: L101     | Type: Light Sensor   | Latest: 340.0 Lux    | Time: 2026-06-12T11:00:00
-    [Sensor]    ID: T101     | Type: Temperature    | Latest: 23.0 Â°C      | Time: 2026-06-12T11:05:00
+    [Sensor]    ID: T101     | Type: Temperature    | Latest: 23.0 °C      | Time: 2026-06-12T11:05:00
     [Sensor]    ID: E101     | Type: Electricity    | Latest: 1.5 kWh      | Time: 2026-06-12T11:10:00
   Appliances (3):
-    [Appliance] ID: LGT01    | Type: Light            | Status: ON   | Consumed: 3.00 kWh
-    [Appliance] ID: AC01     | Type: Air Conditioner  | Status: ON   | Consumed: 14.30 kWh
-    [Appliance] ID: FAN01    | Type: Fan              | Status: ON   | Consumed: 3.30 kWh
+    [Appliance] ID: LGT01    | Type: Light            | Status: OFF  | Consumed: 13.00 kWh
+    [Appliance] ID: AC01     | Type: Air Conditioner  | Status: OFF  | Consumed: 44.30 kWh
+    [Appliance] ID: FAN01    | Type: Fan              | Status: OFF  | Consumed: 13.30 kWh
 
   ........................................
 
@@ -41,7 +41,7 @@ Areas     : 6
   Sensors (1):
     [Sensor]    ID: L102     | Type: Light Sensor   | Latest: 400.0 Lux    | Time: 2026-06-12T11:15:00
   Appliances (1):
-    [Appliance] ID: LGT01    | Type: Light            | Status: ON   | Consumed: 3.00 kWh
+    [Appliance] ID: LGT01    | Type: Light            | Status: OFF  | Consumed: 13.00 kWh
 
   ........................................
 
@@ -49,7 +49,7 @@ Areas     : 6
   Name      : Admin Office
   Type      : Office
   Sensors (1):
-    [Sensor]    ID: T101     | Type: Temperature    | Latest: 23.0 Â°C      | Time: 2026-06-12T11:05:00
+    [Sensor]    ID: T101     | Type: Temperature    | Latest: 23.0 °C      | Time: 2026-06-12T11:05:00
   Appliances (0):
     (none)
 

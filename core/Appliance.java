@@ -16,12 +16,12 @@ public abstract class Appliance implements Controllable {
     private String lastChangeTimestamp;
     private String lastChangedBy;
 
-    public Appliance(String applianceType, String applianceID, String status, double energyThreshold, String lastChangeTimestamp) {
+    public Appliance(String applianceType, String applianceID, String status, double energyThreshold, double energyConsumption, String lastChangeTimestamp) {
         this.applianceType = applianceType;
         this.applianceID = applianceID;
         this.status = status;
         this.energyThreshold = energyThreshold;
-        this.energyConsumption = 0;
+        this.energyConsumption = energyConsumption;
         this.totalUsedTime = 0;
         this.lastChangeTimestamp = LocalDateTime.now().toString();
         this.lastChangedBy = "NO DATA";

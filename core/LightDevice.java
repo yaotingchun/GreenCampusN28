@@ -5,8 +5,8 @@ import Control.Admin;
 
 public class LightDevice extends Appliance {
     private double brightnessLevel;
-    public LightDevice(String applianceID, String status) {
-        super("Light", applianceID, status, 0.0, LocalDateTime.now().toString());
+    public LightDevice(String applianceID, String status, double energyThreshold, double energyConsumption) {
+        super("Light", applianceID, status, energyThreshold, energyConsumption, LocalDateTime.now().toString());
         this.brightnessLevel = 0.5; // Default brightness level (50%)
     }
     public double getBrightnessLevel() {

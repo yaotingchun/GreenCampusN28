@@ -5,8 +5,8 @@ import Control.Admin;
 
 public class AirConditioner extends Appliance {
     private double temperatureSetting;
-    public AirConditioner(String applianceID, String status) {
-        super("Air Conditioner", applianceID, status,  0.0, LocalDateTime.now().toString());
+    public AirConditioner(String applianceID, String status, double energyThreshold, double energyConsumption) {
+        super("Air Conditioner", applianceID, status, energyThreshold, energyConsumption, LocalDateTime.now().toString());
     }
     public double getEnergyUsage() {
         // Example energy usage based on temperature setting

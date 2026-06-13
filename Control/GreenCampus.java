@@ -68,6 +68,22 @@ public class GreenCampus {
     }
 
     // -----------------------------------------------------------------------
+    // Helper: create an appliance instance from a file record.
+    // -----------------------------------------------------------------------
+    static Appliance createApplianceByType(String applianceType, String applianceId, String status, double energyThreshold, double energyConsumption) {
+        if ("Light".equalsIgnoreCase(applianceType)) {
+            return new LightDevice(applianceId, status, energyThreshold, energyConsumption);
+        }
+        if ("Air Conditioner".equalsIgnoreCase(applianceType) || "AC".equalsIgnoreCase(applianceType)) {
+            return new AirConditioner(applianceId, status, energyThreshold, energyConsumption);
+        }
+        if ("Fan".equalsIgnoreCase(applianceType)) {
+            return new Fan(applianceId, status, energyThreshold, energyConsumption);
+        }
+        return null;
+    }
+
+    // -----------------------------------------------------------------------
     // MAIN
     // -----------------------------------------------------------------------
     public static void main(String[] args) {
@@ -119,29 +135,60 @@ public class GreenCampus {
         }
 
         // ===================================================================
-        // 2. Register appliances and simulate daily electricity usage
+        // 2. Read appliance definitions and usage logs from appliance_input.txt
         // ===================================================================
-        LightDevice light = new LightDevice("LGT01", "OFF");
-        AirConditioner ac = new AirConditioner("AC01", "OFF");
-        Fan fan = new Fan("FAN01", "OFF");
-        Fan fan2 = new Fan("FAN03", "ON");
-        applianceCRUD.register(light);
-        applianceCRUD.register(ac);
-        applianceCRUD.register(fan);
-        applianceCRUD.register(fan2);
+        File applianceFile = new File("appliance_input.txt");
+        if (applianceFile.exists()) {
+            System.out.println("Reading appliance data from " + applianceFile.getName() + "...");
+            try (BufferedReader reader = new BufferedReader(new FileReader(applianceFile))) {
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    if (line.trim().isEmpty() || line.startsWith("#"))
+                        continue;
+                    String[] parts = line.split(",");
+                    if (parts.length < 2) {
+                        continue;
+                    }
 
-        light.turnOn(admin);
-        ac.turnOn(admin);
-        fan.turnOn(admin);
+                    String recordType = parts[0].trim();
+                    if ("APPLIANCE".equalsIgnoreCase(recordType) && parts.length >= 4) {
+                        String applianceType = parts[1].trim();
+                        String applianceId = parts[2].trim();
+                        String status = parts[3].trim();
+                        double energyThreshold = Double.parseDouble((parts.length >= 5) ? parts[4].trim() : "0.0");
+                        double energyConsumption = Double.parseDouble((parts.length >= 6) ? parts[5].trim() : "0.0");
+                        if (applianceCRUD.getAppliance(applianceId) == null) {
+                            Appliance appliance = createApplianceByType(applianceType, applianceId, status, energyThreshold, energyConsumption);
+                            if (appliance != null) {
+                                applianceCRUD.register(appliance);
+                                System.out.println("  Loaded appliance: " + appliance);
+                            } else {
+                                System.out.println("  [WARN] Unsupported appliance type " + applianceType + ".");
+                            }
+                        }
+                    } else if ("USAGE".equalsIgnoreCase(recordType) && parts.length >= 4) {
+                        String applianceId = parts[1].trim();
+                        double energyUsed = Double.parseDouble(parts[2].trim());
+                        String timestamp = parts[3].trim();
+                        Appliance appliance = applianceCRUD.getAppliance(applianceId);
+                        if (appliance != null) {
+                            appliance.addEnergyUsage(energyUsed, timestamp);
+                        } else {
+                            System.out.println("  [WARN] Appliance " + applianceId + " not found for usage record.");
+                        }
+                    }
+                }
+            } catch (IOException | NumberFormatException e) {
+                System.err.println("Error parsing appliance input: " + e.getMessage());
+            }
+        } else {
+            System.out.println("No appliance_input.txt found.");
+        }
 
-        light.addEnergyUsage(0.8, "2026-06-11T09:00:00");
-        light.addEnergyUsage(1.2, "2026-06-11T15:00:00");
-        light.addEnergyUsage(1.0, "2026-06-12T08:00:00");
-        ac.addEnergyUsage(4.5, "2026-06-10T12:00:00");
-        ac.addEnergyUsage(5.0, "2026-06-11T14:00:00");
-        ac.addEnergyUsage(4.8, "2026-06-12T13:00:00");
-        fan.addEnergyUsage(1.5, "2026-06-11T10:00:00");
-        fan.addEnergyUsage(1.8, "2026-06-12T11:00:00");
+        Appliance light = applianceCRUD.getAppliance("LGT01");
+        Appliance ac = applianceCRUD.getAppliance("AC01");
+        Appliance fan = applianceCRUD.getAppliance("FAN01");
+        Appliance fan2 = applianceCRUD.getAppliance("FAN03");
 
         // ===================================================================
         // 3. Build the building from area_input.txt
@@ -163,7 +210,9 @@ public class GreenCampus {
 
         building.addArea(areaTest);
         areaList.add(areaTest);
-        building.addApplianceToArea(areaTest, fan2);
+        if (fan2 != null) {
+            building.addApplianceToArea(areaTest, fan2);
+        }
 
         File areaFile = new File("area_input.txt");
         if (areaFile.exists()) {
@@ -235,9 +284,9 @@ public class GreenCampus {
             for (Sensor s : sensorCRUD.getAllSensors()) {
                 building.addSensorToArea(defaultArea, s);
             }
-            building.addApplianceToArea(defaultArea, light);
-            building.addApplianceToArea(defaultArea, ac);
-            building.addApplianceToArea(defaultArea, fan);
+            for (Appliance appliance : applianceCRUD.getAllAppliances()) {
+                building.addApplianceToArea(defaultArea, appliance);
+            }
         }
 
         System.out.println("\n" + building);

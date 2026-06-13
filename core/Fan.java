@@ -5,8 +5,8 @@ import Control.Admin;
 
 public class Fan extends Appliance {
     private int speedLevel; // 1 to 5
-    public Fan(String applianceID, String status) {
-        super("Fan", applianceID, status, 0.0, LocalDateTime.now().toString());
+    public Fan(String applianceID, String status, double energyThreshold, double energyConsumption) {
+        super("Fan", applianceID, status, energyThreshold, energyConsumption, LocalDateTime.now().toString());
         this.speedLevel = 3; // Default speed level
     }
     public int getSpeedLevel() {
