@@ -1,3 +1,4 @@
+package core;
 public class Reading {
     private double value;
     private String timestamp;

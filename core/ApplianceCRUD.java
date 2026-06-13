@@ -1,3 +1,4 @@
+package core;
 import java.util.Vector;
 public class ApplianceCRUD {
     private Vector<Appliance> appliances;
@@ -43,11 +44,36 @@ public class ApplianceCRUD {
         }
         return result;
     }
-    public void displayAlert(){
+    public void displayAlert() {
         for (Appliance appliance : appliances) {
             if (appliance.getEnergyConsumption() > appliance.getEnergyThreshold()) {
                 System.out.println("ALERT: " + appliance.getApplianceID() + " has exceeded its energy threshold!");
             }
         }
+    }
+
+    /**
+     * Update an appliance's status and/or energy threshold by its ID.
+     *
+     * @param applianceId     the ID of the appliance to update
+     * @param newStatus       new status string ("ON" or "OFF"), or null to leave unchanged
+     * @param newThreshold    new energy threshold in kWh; use -1 to leave unchanged
+     * @return true if the appliance was found and updated, false otherwise
+     */
+    public boolean updateAppliance(String applianceId, String newStatus, double newThreshold) {
+        Appliance target = getAppliance(applianceId);
+        if (target != null) {
+            if (newStatus != null && !newStatus.isEmpty()) {
+                target.setStatus(newStatus);
+                System.out.println("Appliance " + applianceId + " status updated to: " + newStatus);
+            }
+            if (newThreshold >= 0) {
+                target.setEnergyThreshold(newThreshold);
+                System.out.println("Appliance " + applianceId + " energy threshold updated to: " + newThreshold + " kWh");
+            }
+            return true;
+        }
+        System.out.println("[WARN] Appliance " + applianceId + " not found. Update skipped.");
+        return false;
     }
 }

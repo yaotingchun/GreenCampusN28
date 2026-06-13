@@ -1,3 +1,4 @@
+package core;
 import java.util.Vector;
 
 public abstract class Sensor {
@@ -43,24 +44,6 @@ public abstract class Sensor {
     }
     public void setUnit(String unit) {
         this.unit = unit;
-    }
-}
-
-class LightSensor extends Sensor {
-    public LightSensor(String sensorID, double value, String timestamp) {
-        super("Light Sensor", sensorID, 0, timestamp, "Lux");
-    }
-}
-
-class TemperatureSensor extends Sensor {
-    public TemperatureSensor(String sensorID, double value, String timestamp) {
-        super("Temperature", sensorID, value, timestamp, "°C");
-    }
-}
-
-class ElectricitySensor extends Sensor {
-    public ElectricitySensor(String sensorID, double value, String timestamp) {
-        super("Electricity", sensorID, value, timestamp, "kWh");
     }
 }
 
