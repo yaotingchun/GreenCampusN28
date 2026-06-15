@@ -1,10 +1,8 @@
 package control;
 import structure.Building;
-import structure.Room;
+import structure.Classroom;
 import EnergyController;
 import core.Appliance;
-
-
 
 
 public class Admin {

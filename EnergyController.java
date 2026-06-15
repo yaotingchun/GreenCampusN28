@@ -15,5 +15,6 @@ public class EnergyController {
             roomTotal += a.getEnergyUsage();
         }
         return roomTotal;
-    }  
+    } 
+    
 }
