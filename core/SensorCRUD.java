@@ -23,7 +23,7 @@ public class SensorCRUD {
                 return sensor;
             }
         }
-        return null;
+        return null; // Return null instead of throwing exception
     }
 
     public Vector<Sensor> getAllSensors() {
@@ -53,5 +53,9 @@ public class SensorCRUD {
         }
         System.out.println("[WARN] Sensor " + sensorId + " not found. Update skipped.");
         return false;
+    }
+
+    public boolean exists(String sensorId) {
+        return getSensorBySerialNumber(sensorId) != null;
     }
 }
