@@ -1,5 +1,5 @@
 package core;
-import Control.Admin;
+import control.Admin;
 
 public interface Controllable {
     void turnOn(Admin admin);

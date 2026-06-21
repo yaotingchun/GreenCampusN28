@@ -1,7 +1,7 @@
 package core;
 
 import java.time.LocalDateTime;
-import Control.Admin;
+import control.Admin;
 
 public class Fan extends Appliance {
     private int speedLevel; // 1 to 5

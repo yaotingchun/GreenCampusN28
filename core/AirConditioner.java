@@ -1,7 +1,7 @@
 package core;
 
 import java.time.LocalDateTime;
-import Control.Admin;
+import control.Admin;
 
 public class AirConditioner extends Appliance {
     private double temperatureSetting;

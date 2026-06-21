@@ -1,6 +1,6 @@
 package core;
 
-import Control.Admin;
+import control.Admin;
 import java.time.LocalDateTime;
 import java.util.Vector;
 

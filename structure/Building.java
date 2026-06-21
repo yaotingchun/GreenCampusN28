@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import core.Appliance;
 import core.Sensor;
-import Control.GreenCampus;
+import control.GreenCampus;
 
 public class Building {
     private String name;
