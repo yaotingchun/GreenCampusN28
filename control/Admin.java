@@ -9,6 +9,7 @@ public class Admin {
     private String username;
     private String password;
     private double energyThreshold;
+    private Building managedBuilding;
 
     public Admin(String username, String password) {
         this.username = username;
@@ -26,10 +27,6 @@ public class Admin {
 
     public double getEnergyThreshold() {
         return energyThreshold;
-    }
-
-    public String getUsername() {
-        return username;
     }
 
     public String getPassword() {

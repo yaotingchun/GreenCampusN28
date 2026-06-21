@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import core.Appliance;
 import core.Sensor;
-import control.GreenCampus;
 import io.FileManager;
 
 public class Building {

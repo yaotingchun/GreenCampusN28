@@ -87,7 +87,6 @@ public class GreenCampus {
     // MAIN
     // -----------------------------------------------------------------------
     public static void main(String[] args) {
-        Admin admin = new Admin("admin", "admin123");
         SensorCRUD sensorCRUD = new SensorCRUD();
         ApplianceCRUD applianceCRUD = new ApplianceCRUD();
 
@@ -185,9 +184,6 @@ public class GreenCampus {
             System.out.println("No appliance_input.txt found.");
         }
 
-        Appliance light = applianceCRUD.getAppliance("LGT01");
-        Appliance ac = applianceCRUD.getAppliance("AC01");
-        Appliance fan = applianceCRUD.getAppliance("FAN01");
         Appliance fan2 = applianceCRUD.getAppliance("FAN03");
 
         // ===================================================================
