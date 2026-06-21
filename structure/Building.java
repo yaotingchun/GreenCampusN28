@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import core.Appliance;
 import core.Sensor;
 import control.GreenCampus;
+import io.FileManager;
 
 public class Building {
     private String name;
@@ -43,38 +44,54 @@ public class Building {
     public void addSensorToArea(Area area, Sensor sensor) {
         area.addSensor(sensor);
 
-        GreenCampus.writeRoomInformation(
-                this,
-                "addSensor: " + sensor.getSensorID() +
-                        " -> area " + area.getAreaId());
+        try {
+            FileManager.writeRoomInformation(
+                    this,
+                    "addSensor: " + sensor.getSensorID() +
+                            " -> area " + area.getAreaId());
+        } catch (java.io.IOException e) {
+            System.err.println("Error writing room information: " + e.getMessage());
+        }
     }
 
     public void removeSensorFromArea(Area area, Sensor sensor) {
         area.removeSensor(sensor);
 
-        GreenCampus.writeRoomInformation(
-                this,
-                "removeSensor: " + sensor.getSensorID() +
-                        " -> area " + area.getAreaId());
+        try {
+            FileManager.writeRoomInformation(
+                    this,
+                    "removeSensor: " + sensor.getSensorID() +
+                            " -> area " + area.getAreaId());
+        } catch (java.io.IOException e) {
+            System.err.println("Error writing room information: " + e.getMessage());
+        }
     }
 
     // ===== APPLIANCE =====
     public void addApplianceToArea(Area area, Appliance appliance) {
         area.addAppliance(appliance);
 
-        GreenCampus.writeRoomInformation(
-                this,
-                "addAppliance: " + appliance.getApplianceID() +
-                        " -> area " + area.getAreaId());
+        try {
+            FileManager.writeRoomInformation(
+                    this,
+                    "addAppliance: " + appliance.getApplianceID() +
+                            " -> area " + area.getAreaId());
+        } catch (java.io.IOException e) {
+            System.err.println("Error writing room information: " + e.getMessage());
+        }
     }
 
     public void removeApplianceFromArea(Area area, Appliance appliance) {
         area.removeAppliance(appliance);
 
-        GreenCampus.writeRoomInformation(
-                this,
-                "removeAppliance: " + appliance.getApplianceID() +
-                        " -> area " + area.getAreaId());
+        try {
+            FileManager.writeRoomInformation(
+                    this,
+                    "removeAppliance: " + appliance.getApplianceID() +
+                            " -> area " + area.getAreaId());
+        } catch (java.io.IOException e) {
+            System.err.println("Error writing room information: " + e.getMessage());
+        }
     }
 
     // ===== DISPLAY =====

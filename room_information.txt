@@ -1,37 +1,27 @@
 ==========================================
        ROOM INFORMATION REPORT            
 ==========================================
-Generated : 2026-06-13T21:28:42.593891400
-Trigger   : System startup complete
+Generated : 2026-06-19T02:04:06.061099700
+Trigger   : addAppliance: FAN04 -> area AreaTest3
 
 Building  : Engineering Building
 Address   : 123 University Ave
 Areas     : 6
 ------------------------------------------
 
-  Area ID   : AreaTest3
-  Name      : test1234
-  Type      : Classroom
-  Sensors (3):
-    [Sensor]    ID: LS01     | Type: Light Sensor   | Latest: 340.0 Lux    | Time: 2026-06-12T11:00:00
-    [Sensor]    ID: TS01     | Type: Temperature    | Latest: 28.0 °C      | Time: 2026-06-12T11:00:00
-    [Sensor]    ID: ES01     | Type: Electricity    | Latest: 0.5 kWh      | Time: 2026-06-12T11:00:00
-  Appliances (1):
-    [Appliance] ID: FAN03    | Type: Fan              | Status: ON   | Consumed: 10.00 kWh
-
-  ........................................
-
   Area ID   : CR101
   Name      : Computer Science Lab
   Type      : Classroom
   Sensors (3):
     [Sensor]    ID: L101     | Type: Light Sensor   | Latest: 340.0 Lux    | Time: 2026-06-12T11:00:00
-    [Sensor]    ID: T101     | Type: Temperature    | Latest: 23.0 °C      | Time: 2026-06-12T11:05:00
+    [Sensor]    ID: T101     | Type: Temperature    | Latest: 23.0 Â°C      | Time: 2026-06-12T11:05:00
     [Sensor]    ID: E101     | Type: Electricity    | Latest: 1.5 kWh      | Time: 2026-06-12T11:10:00
-  Appliances (3):
+  Appliances (5):
     [Appliance] ID: LGT01    | Type: Light            | Status: OFF  | Consumed: 13.00 kWh
     [Appliance] ID: AC01     | Type: Air Conditioner  | Status: OFF  | Consumed: 44.30 kWh
     [Appliance] ID: FAN01    | Type: Fan              | Status: OFF  | Consumed: 13.30 kWh
+    [Appliance] ID: LGT02    | Type: Light            | Status: ON   | Consumed: 18.50 kWh
+    [Appliance] ID: AC02     | Type: Air Conditioner  | Status: ON   | Consumed: 52.00 kWh
 
   ........................................
 
@@ -49,7 +39,7 @@ Areas     : 6
   Name      : Admin Office
   Type      : Office
   Sensors (1):
-    [Sensor]    ID: T101     | Type: Temperature    | Latest: 23.0 °C      | Time: 2026-06-12T11:05:00
+    [Sensor]    ID: T101     | Type: Temperature    | Latest: 23.0 Â°C      | Time: 2026-06-12T11:05:00
   Appliances (0):
     (none)
 
@@ -72,6 +62,19 @@ Areas     : 6
     [Sensor]    ID: L103     | Type: Light Sensor   | Latest: 350.0 Lux    | Time: 2026-06-12T11:15:00
   Appliances (0):
     (none)
+
+  ........................................
+
+  Area ID   : AreaTest3
+  Name      : test1234
+  Type      : Classroom
+  Sensors (3):
+    [Sensor]    ID: LS01     | Type: Light Sensor   | Latest: 340.0 Lux    | Time: 2026-06-12T11:00:00
+    [Sensor]    ID: TS01     | Type: Temperature    | Latest: 28.0 Â°C      | Time: 2026-06-12T11:00:00
+    [Sensor]    ID: ES01     | Type: Electricity    | Latest: 0.5 kWh      | Time: 2026-06-12T11:00:00
+  Appliances (2):
+    [Appliance] ID: FAN03    | Type: Fan              | Status: ON   | Consumed: 10.00 kWh
+    [Appliance] ID: FAN04    | Type: Fan              | Status: ON   | Consumed: 15.00 kWh
 
   ........................................
 ==========================================

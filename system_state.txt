@@ -1,24 +1,24 @@
 ==========================================
          GREEN CAMPUS SYSTEM STATE        
 ==========================================
-Report Date: 2026-06-13T21:28:42.591890600
+Report Date: 2026-06-19T01:36:15.609719400
 
 --- SENSORS STATE ---
 Sensor ID: L101     | Type: Light Sensor | Latest: 340.0 Lux    | Time: 2026-06-12T11:00:00
-Sensor ID: T101     | Type: Temperature  | Latest: 23.0 �C      | Time: 2026-06-12T11:05:00
+Sensor ID: T101     | Type: Temperature  | Latest: 23.0 °C      | Time: 2026-06-12T11:05:00
 Sensor ID: E101     | Type: Electricity  | Latest: 1.5 kWh      | Time: 2026-06-12T11:10:00
 Sensor ID: L102     | Type: Light Sensor | Latest: 400.0 Lux    | Time: 2026-06-12T11:15:00
 Sensor ID: L103     | Type: Light Sensor | Latest: 350.0 Lux    | Time: 2026-06-12T11:15:00
 Sensor ID: LS01     | Type: Light Sensor | Latest: 340.0 Lux    | Time: 2026-06-12T11:00:00
+Sensor ID: TS01     | Type: Temperature  | Latest: 28.0 °C      | Time: 2026-06-12T11:00:00
+Sensor ID: ES01     | Type: Electricity  | Latest: 0.5 kWh      | Time: 2026-06-12T11:00:00
 
 --- APPLIANCES STATE ---
-Appliance ID: LGT01    | Type: Light            | Status: OFF  | Total Consumed: 13.00 kWh
-Appliance ID: AC01     | Type: Air Conditioner  | Status: OFF  | Total Consumed: 44.30 kWh
-Appliance ID: FAN01    | Type: Fan              | Status: OFF  | Total Consumed: 13.30 kWh
+Appliance ID: LGT01    | Type: Light            | Status: ON   | Total Consumed: 10.00 kWh
+Appliance ID: AC01     | Type: Air Conditioner  | Status: OFF  | Total Consumed: 30.00 kWh
+Appliance ID: FAN01    | Type: Fan              | Status: OFF  | Total Consumed: 10.00 kWh
 Appliance ID: FAN03    | Type: Fan              | Status: ON   | Total Consumed: 10.00 kWh
 
 --- DAILY ELECTRICITY CONSUMPTION LOG ---
-Date: 2026-06-10 | Total Consumption: 4.50 kWh
-Date: 2026-06-11 | Total Consumption: 8.50 kWh
-Date: 2026-06-12 | Total Consumption: 7.60 kWh
+No electricity consumption records found.
 ==========================================
