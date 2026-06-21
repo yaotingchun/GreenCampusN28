@@ -1,11 +1,11 @@
 ==========================================
          GREEN CAMPUS SYSTEM STATE        
 ==========================================
-Report Date: 2026-06-13T21:28:42.591890600
+Report Date: 2026-06-21T22:59:20.506893
 
 --- SENSORS STATE ---
 Sensor ID: L101     | Type: Light Sensor | Latest: 340.0 Lux    | Time: 2026-06-12T11:00:00
-Sensor ID: T101     | Type: Temperature  | Latest: 23.0 °C      | Time: 2026-06-12T11:05:00
+Sensor ID: T101     | Type: Temperature  | Latest: 23.0 Â°C      | Time: 2026-06-12T11:05:00
 Sensor ID: E101     | Type: Electricity  | Latest: 1.5 kWh      | Time: 2026-06-12T11:10:00
 Sensor ID: L102     | Type: Light Sensor | Latest: 400.0 Lux    | Time: 2026-06-12T11:15:00
 Sensor ID: L103     | Type: Light Sensor | Latest: 350.0 Lux    | Time: 2026-06-12T11:15:00
