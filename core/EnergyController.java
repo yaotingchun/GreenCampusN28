@@ -2,7 +2,6 @@ package core;
 
 import structure.Building;
 import structure.Area;
-import core.Appliance;
 
 public class EnergyController {
 

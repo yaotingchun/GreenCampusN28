@@ -1,5 +1,9 @@
 package Control;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -30,11 +34,8 @@ public class Main {
     private static ApplianceCRUD applianceCRUD = new ApplianceCRUD();
     private static ArrayList<Area> areaList = new ArrayList<>();
 
-    // Default admin credentials
     private static final String DEFAULT_USERNAME = "Admin123";
     private static final String DEFAULT_PASSWORD = "1234";
-
-    // ===== UTILITY METHODS =====
 
     static Area findAreaById(ArrayList<Area> areas, String areaId) {
         for (Area area : areas) {
@@ -60,14 +61,13 @@ public class Main {
         return null;
     }
 
-    // ===== ADMIN MENU METHODS =====
-
     private static void showMainMenu() {
         System.out.println("\n========================================");
         System.out.println("     GREEN CAMPUS MANAGEMENT SYSTEM     ");
         System.out.println("========================================");
         System.out.println("1. Login as Admin");
-        System.out.println("2. Exit");
+        System.out.println("2. Register New Admin");
+        System.out.println("3. Exit");
         System.out.println("========================================");
         System.out.print("Choose option: ");
     }
@@ -108,11 +108,9 @@ public class Main {
         System.out.print("Choose option: ");
     }
 
-    // ===== LOGIN =====
 
     private static boolean loginAdmin() {
         System.out.println("\n--- Admin Login ---");
-        System.out.println("(Default credentials: Admin123 / 1234)");
 
         try {
             System.out.print("Enter username: ");
@@ -131,8 +129,18 @@ public class Main {
                 return false;
             }
 
-            // Check against default credentials
+            // Check against default credentials first
             if (username.equals(DEFAULT_USERNAME) && password.equals(DEFAULT_PASSWORD)) {
+                currentAdmin = new Admin(username, password);
+                System.out.println("Login successful! Welcome " + username + "!");
+
+                // Load building data after successful login
+                loadBuildingData();
+                return true;
+            }
+
+            // Check against registered admins in file
+            if (validateAdminCredentials(username, password)) {
                 currentAdmin = new Admin(username, password);
                 System.out.println("Login successful! Welcome " + username + "!");
 
@@ -141,7 +149,6 @@ public class Main {
                 return true;
             } else {
                 System.out.println("Invalid username or password!");
-                System.out.println("Hint: Use username 'Admin123' and password '1234'");
                 return false;
             }
 
@@ -152,28 +159,130 @@ public class Main {
         }
     }
 
-    // ===== LOAD BUILDING DATA =====
+    private static boolean validateAdminCredentials(String username, String password) {
+        try {
+            File file = new File("admin_accounts.txt");
+            if (!file.exists()) {
+                return false;
+            }
+
+            BufferedReader reader = new BufferedReader(new FileReader(file));
+            String line;
+            while ((line = reader.readLine()) != null) {
+                if (line.trim().isEmpty() || line.startsWith("#")) {
+                    continue;
+                }
+                String[] parts = line.split(",");
+                if (parts.length >= 2) {
+                    String storedUsername = parts[0].trim();
+                    String storedPassword = parts[1].trim();
+                    if (storedUsername.equals(username) && storedPassword.equals(password)) {
+                        reader.close();
+                        return true;
+                    }
+                }
+            }
+            reader.close();
+        } catch (IOException e) {
+            System.err.println("Error validating credentials: " + e.getMessage());
+        }
+        return false;
+    }
+
+    private static void registerAdmin() {
+        System.out.println("\n--- Admin Registration ---");
+
+        try {
+            System.out.print("Enter new username: ");
+            String username = scanner.nextLine().trim();
+
+            if (username.isEmpty()) {
+                System.out.println("Username cannot be empty!");
+                return;
+            }
+
+            if (adminExists(username)) {
+                System.out.println("Username already exists! Please choose a different username.");
+                return;
+            }
+
+            System.out.print("Enter password: ");
+            String password = scanner.nextLine().trim();
+
+            if (password.isEmpty()) {
+                System.out.println("Password cannot be empty!");
+                return;
+            }
+
+            System.out.print("Confirm password: ");
+            String confirmPassword = scanner.nextLine().trim();
+
+            if (!password.equals(confirmPassword)) {
+                System.out.println("Passwords do not match!");
+                return;
+            }
+
+            // Add admin to file
+            addAdminAccountToFile(username, password);
+            System.out.println("Registration successful! You can now login with your credentials.");
+
+        } catch (Exception e) {
+            System.err.println("Error during registration: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    private static boolean adminExists(String username) {
+        try {
+            File file = new File("admin_accounts.txt");
+            if (!file.exists()) {
+                return false;
+            }
+
+            BufferedReader reader = new BufferedReader(new FileReader(file));
+            String line;
+            while ((line = reader.readLine()) != null) {
+                if (line.trim().isEmpty() || line.startsWith("#")) {
+                    continue;
+                }
+                String[] parts = line.split(",");
+                if (parts.length >= 1 && parts[0].trim().equals(username)) {
+                    reader.close();
+                    return true;
+                }
+            }
+            reader.close();
+        } catch (IOException e) {
+            System.err.println("Error checking admin existence: " + e.getMessage());
+        }
+        return false;
+    }
+
+    private static void addAdminAccountToFile(String username, String password) {
+        try {
+            File file = new File("admin_accounts.txt");
+            FileWriter writer = new FileWriter(file, true); // append mode
+            writer.write(username + "," + password + "\n");
+            writer.close();
+        } catch (IOException e) {
+            System.err.println("Error saving admin account: " + e.getMessage());
+            throw new RuntimeException(e);
+        }
+    }
 
     private static void loadBuildingData() {
         try {
             System.out.println("\nLoading building data from files...");
 
-            // Reset existing data
             sensorCRUD = new SensorCRUD();
             applianceCRUD = new ApplianceCRUD();
             areaList = new ArrayList<>();
             building = new Building("Engineering Building", "123 University Ave");
 
-            // Load sensors from file
+
             loadSensorsFromFile();
-
-            // Load appliances from file
             loadAppliancesFromFile();
-
-            // Load areas from file
             loadAreasFromFile();
-
-            // Load sensor and appliance assignments from area_input.txt
             loadAreaAssignments();
 
             System.out.println("Building data loaded successfully!");
@@ -181,7 +290,6 @@ public class Main {
             System.out.println("Sensors loaded: " + sensorCRUD.getAllSensors().size());
             System.out.println("Appliances loaded: " + applianceCRUD.getAllAppliances().size());
 
-            // Set the building for admin
             if (currentAdmin != null) {
                 currentAdmin.setManagedBuilding(building);
             }
@@ -194,7 +302,6 @@ public class Main {
     }
 
     private static void loadSensorsFromFile() throws IOException {
-        // Create sample sensors based on the existing sensor_input.txt content
         Sensor lSensor = new LightSensor("L101", 340.0, "2026-06-12T11:00:00");
         sensorCRUD.addSensor(lSensor);
 
@@ -210,7 +317,6 @@ public class Main {
         Sensor lSensor3 = new LightSensor("L103", 350.0, "2026-06-12T11:15:00");
         sensorCRUD.addSensor(lSensor3);
 
-        // Add test sensors
         Sensor lSensorTest = new LightSensor("LS01", 340.0, "2026-06-12T11:00:00");
         sensorCRUD.addSensor(lSensorTest);
 
@@ -222,19 +328,19 @@ public class Main {
     }
 
     private static void loadAppliancesFromFile() throws IOException {
-        Appliance light = new LightDevice("LGT01", "OFF", 30, 13.0); // 13.0 > 30? No, it's below threshold
+        Appliance light = new LightDevice("LGT01", "OFF", 30, 13.0); 
         applianceCRUD.register(light);
 
-        Appliance ac = new AirConditioner("AC01", "OFF", 50, 44.3); // 44.3 < 50? No, it's below threshold
+        Appliance ac = new AirConditioner("AC01", "OFF", 50, 44.3); 
         applianceCRUD.register(ac);
 
-        Appliance fan = new Fan("FAN01", "OFF", 20, 13.3); // 13.3 < 20? No, it's below threshold
+        Appliance fan = new Fan("FAN01", "OFF", 20, 13.3); 
         applianceCRUD.register(fan);
 
-        Appliance fan2 = new Fan("FAN03", "ON", 20, 10.0); // 10.0 < 20? No, it's below threshold
+        Appliance fan2 = new Fan("FAN03", "ON", 20, 10.0); 
         applianceCRUD.register(fan2);
 
-        // Add some appliances that exceed threshold for optimization plan demo
+        // over threshold
         Appliance lightOver = new LightDevice("LGT02", "ON", 15, 18.5); // 18.5 > 15 - NEEDS OPTIMIZATION
         applianceCRUD.register(lightOver);
 
@@ -246,7 +352,6 @@ public class Main {
     }
 
     private static void loadAreasFromFile() throws IOException {
-        // Create areas based on area_input.txt
         Area area1 = new Classroom("CR101", "Computer Science Lab");
         building.addArea(area1);
         areaList.add(area1);
@@ -267,21 +372,18 @@ public class Main {
         building.addArea(area5);
         areaList.add(area5);
 
-        // Add test area
         Area areaTest = new Classroom("AreaTest3", "test1234");
         building.addArea(areaTest);
         areaList.add(areaTest);
     }
 
     private static void loadAreaAssignments() throws IOException {
-        // Assign sensors and appliances to areas based on area_input.txt
         Area cr101 = findAreaById(areaList, "CR101");
         Area lh201 = findAreaById(areaList, "LH201");
         Area of301 = findAreaById(areaList, "OF301");
         Area co402 = findAreaById(areaList, "CO402");
         Area areaTest = findAreaById(areaList, "AreaTest3");
 
-        // Assign sensors to CR101
         if (cr101 != null) {
             Sensor l101 = sensorCRUD.getSensorBySerialNumber("L101");
             Sensor t101 = sensorCRUD.getSensorBySerialNumber("T101");
@@ -294,7 +396,6 @@ public class Main {
             if (e101 != null)
                 building.addSensorToArea(cr101, e101);
 
-            // Assign appliances to CR101
             Appliance lgt01 = applianceCRUD.getAppliance("LGT01");
             Appliance ac01 = applianceCRUD.getAppliance("AC01");
             Appliance fan01 = applianceCRUD.getAppliance("FAN01");
@@ -313,33 +414,28 @@ public class Main {
                 building.addApplianceToArea(cr101, ac02);
         }
 
-        // Assign sensors to LH201
         if (lh201 != null) {
             Sensor l102 = sensorCRUD.getSensorBySerialNumber("L102");
             if (l102 != null)
                 building.addSensorToArea(lh201, l102);
 
-            // Assign appliances to LH201
             Appliance lgt01 = applianceCRUD.getAppliance("LGT01");
             if (lgt01 != null)
                 building.addApplianceToArea(lh201, lgt01);
         }
 
-        // Assign sensors to OF301
         if (of301 != null) {
             Sensor t101 = sensorCRUD.getSensorBySerialNumber("T101");
             if (t101 != null)
                 building.addSensorToArea(of301, t101);
         }
 
-        // Assign sensors to CO402
         if (co402 != null) {
             Sensor l103 = sensorCRUD.getSensorBySerialNumber("L103");
             if (l103 != null)
                 building.addSensorToArea(co402, l103);
         }
 
-        // Assign sensors and appliances to AreaTest3
         if (areaTest != null) {
             Sensor ls01 = sensorCRUD.getSensorBySerialNumber("LS01");
             Sensor ts01 = sensorCRUD.getSensorBySerialNumber("TS01");
@@ -365,12 +461,10 @@ public class Main {
     private static void createDefaultBuilding() {
         building = new Building("Engineering Building", "123 University Ave");
 
-        // Create a default area
         Area defaultArea = new Classroom("CR101", "Computer Science Lab");
         building.addArea(defaultArea);
         areaList.add(defaultArea);
 
-        // Create default sensors
         Sensor lSensor = new LightSensor("LS01", 340.0, LocalDateTime.now().toString());
         sensorCRUD.addSensor(lSensor);
         building.addSensorToArea(defaultArea, lSensor);
@@ -379,7 +473,6 @@ public class Main {
         sensorCRUD.addSensor(tSensor);
         building.addSensorToArea(defaultArea, tSensor);
 
-        // Create default appliances
         Appliance light = new LightDevice("LGT01", "OFF", 30, 10);
         applianceCRUD.register(light);
         building.addApplianceToArea(defaultArea, light);
@@ -394,7 +487,7 @@ public class Main {
         System.out.println("Default building created with one area.");
     }
 
-    // ===== DEVICE MANAGEMENT =====
+    // devices
 
     private static void manageDevices() {
         while (true) {
@@ -527,7 +620,7 @@ public class Main {
         }
     }
 
-    // ===== SENSOR MANAGEMENT =====
+    // sensors
 
     private static void manageSensors() {
         while (true) {
@@ -659,7 +752,7 @@ public class Main {
         }
     }
 
-    // ===== THRESHOLD MANAGEMENT =====
+    // devices
 
     private static void setDeviceThreshold() {
         try {
@@ -692,8 +785,6 @@ public class Main {
             System.out.println("Invalid number format!");
         }
     }
-
-    // ===== APPLIANCE CONTROL =====
 
     private static void modifyAppliance() {
         try {
@@ -730,8 +821,6 @@ public class Main {
         }
     }
 
-    // ===== VIEW BUILDING STATUS =====
-
     private static void viewBuildingStatus() {
         if (building == null) {
             System.out.println("No building loaded!");
@@ -740,14 +829,11 @@ public class Main {
 
         System.out.println("\n" + building);
         building.listAllAreas();
-
-        // Show detailed information for each area
         for (Area area : building.getAreas()) {
             System.out.println(area.toDetailedString());
         }
     }
 
-    // ===== OPTIMIZATION PLAN =====
 
     private static void setOptimizationPlan() {
         System.out.println("\n========================================");
@@ -778,7 +864,7 @@ public class Main {
                 // Check if appliance needs optimization
                 if (consumption > threshold) {
                     if (!areaHasIssues) {
-                        System.out.println("\n📍 Area: " + area.getName() + " (" + area.getAreaId() + ")");
+                        System.out.println("\n  Area: " + area.getName() + " (" + area.getAreaId() + ")");
                         System.out.println("   Type: " + area.getAreaType());
                         System.out.println("   ----------------------------------------");
                         areaHasIssues = true;
@@ -790,7 +876,7 @@ public class Main {
                     totalPotentialSavings += excess;
                     totalOptimized++;
 
-                    System.out.println("   ⚠️  Appliance: " + app.getApplianceID());
+                    System.out.println("      Appliance: " + app.getApplianceID());
                     System.out.println("      Type: " + app.getApplianceType());
                     System.out.println("      Status: " + app.getStatus());
                     System.out.println("      Current Consumption: " + String.format("%.2f", consumption) + " kWh");
@@ -798,9 +884,8 @@ public class Main {
                     System.out.println("      Excess: " + String.format("%.2f", excess) + " kWh");
                     System.out.println("      Potential Savings: " + String.format("%.1f", savingsPercentage) + "%");
 
-                    // Generate specific optimization recommendation based on appliance type and
-                    // area
-                    System.out.print("      ✅ Recommendation: ");
+
+                    System.out.print("        Recommendation: ");
                     String recommendation = generateRecommendation(app, area);
                     System.out.println(recommendation);
                     System.out.println("   ----------------------------------------");
@@ -814,10 +899,10 @@ public class Main {
         System.out.println("========================================");
 
         if (!hasOptimizationNeeded) {
-            System.out.println("✅ All appliances are operating within their energy thresholds!");
+            System.out.println("  All appliances are operating within their energy thresholds!");
             System.out.println("   No optimization needed at this time.");
         } else {
-            System.out.println("⚠️  Appliances needing optimization: " + totalOptimized);
+            System.out.println("   Appliances needing optimization: " + totalOptimized);
             System.out.println(
                     "   Total potential energy savings: " + String.format("%.2f", totalPotentialSavings) + " kWh");
             System.out.println("   Estimated cost savings: RM " + String.format("%.2f", totalPotentialSavings * 0.50));
@@ -831,13 +916,7 @@ public class Main {
         System.out.println("========================================");
     }
 
-    /**
-     * Generate specific recommendation based on appliance type and area
-     * 
-     * @param app  The appliance that needs optimization
-     * @param area The area where the appliance is located
-     * @return A specific recommendation string
-     */
+
     private static String generateRecommendation(Appliance app, Area area) {
         String areaId = area.getAreaId();
         String applianceId = app.getApplianceID();
@@ -985,6 +1064,9 @@ public class Main {
                             }
                             break;
                         case 2:
+                            registerAdmin();
+                            break;
+                        case 3:
                             System.out.println("Exiting system. Goodbye!");
                             scanner.close();
                             System.exit(0);
