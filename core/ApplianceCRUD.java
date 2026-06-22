@@ -62,15 +62,6 @@ public class ApplianceCRUD {
         }
     }
 
-    /**
-     * Update an appliance's status and/or energy threshold by its ID.
-     *
-     * @param applianceId  the ID of the appliance to update
-     * @param newStatus    new status string ("ON" or "OFF"), or null to leave
-     *                     unchanged
-     * @param newThreshold new energy threshold in kWh; use -1 to leave unchanged
-     * @return true if the appliance was found and updated, false otherwise
-     */
     public boolean updateAppliance(String applianceId, String newStatus, double newThreshold) {
         Appliance target = getAppliance(applianceId);
         if (target != null) {

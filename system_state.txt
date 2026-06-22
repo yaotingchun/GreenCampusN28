@@ -1,7 +1,7 @@
 ==========================================
          GREEN CAMPUS SYSTEM STATE        
 ==========================================
-Report Date: 2026-06-22T10:41:44.251246400
+Report Date: 2026-06-22T10:52:42.964585100
 
 --- SENSORS STATE ---
 Sensor ID: L101     | Type: Light Sensor | Latest: 340.0 Lux    | Time: 2026-06-12T11:00:00
